@@ -1,0 +1,125 @@
+#!/usr/bin/lua
+require 'os'
+require 'io'
+
+local utf8s = string
+local device_id_string_part = {'FM8PU83-Ver0E-'} --maybe couple different devices
+
+--http://lua-users.org/wiki/SplitJoin
+--next characters must be prependent by % to do flat split:      ( ) . % + - * ? [ ^ $
+function Split(str, pat, limit)
+    limit = limit or 0
+    local t = {}  -- NOTE: use {n = 0} in Lua-5.0
+    local fpat = "(.-)" .. pat
+    local last_end = 1
+    if str then
+        local s, e, cap = utf8s.find(str, fpat, 1)
+        while s do
+            if s ~= 1 or cap ~= "" then
+                table.insert(t,cap)
+            end
+            last_end = e+1
+            limit = limit - 1
+            if limit == 0 then break end
+            s, e, cap = utf8s.find(str, fpat, last_end)
+        end
+        if last_end <= #str then
+            cap = utf8s.sub(str, last_end)
+            table.insert(t, cap)
+        end
+    end
+    return t
+end
+------------------------------------------------------------------------------------------------------------------
+function flatPattern(search)
+    --http://www.gammon.com.au/scripts/doc.php?lua=string.gsub
+    --The code fixes all of the special characters recognized in a regular expression by preceding them with a percent symbol.
+    return string.gsub (search, "[%%%]%^%-$().[*+?]", "%%%1")
+end
+                                                                                                                                                                  
+function trim(s)
+    local s1 = string.gsub(s or '', "^%s+", "")
+    return string.gsub(s1 or '', "%s+$", "")
+end
+------------------------------------------------------------------------------------------------------------------
+function strcontains(s, sub, start_at)
+    if start_at and type(start_at) ~= 'number' then
+        error('Invalid start_at')
+    end
+    if s == nil or sub == nil then
+        return false
+    end
+
+    if type(s) == 'table' then
+        local cont = false
+        for _, v in ipairs(s) do
+            cont = strcontains(v, sub, start_at)
+            if cont then break end
+        end
+        return cont
+    end
+
+    local srch = function (val)
+        local ps = string.find(s, val, start_at or 1, true)
+        return ps ~= nil, ps
+    end
+
+    if type(sub) == 'table' then
+        for _, v in pairs(sub) do
+            local ok, p = srch(v)
+            if ok then
+                return ok, p
+            end
+        end
+        return false
+    end
+
+    return srch(sub)
+end
+------------------------------------------------------------------------------------------------------------------
+
+function os.capture(cmd)
+  local f = assert(io.popen(cmd, 'r'))
+  local s = assert(f:read('*a'))
+  f:close()
+  return s
+end
+
+function exec(...)
+    local cmd = table.concat({'xinput', table.concat({...},' ')}, ' ')
+    --print('Command:', cmd)
+    return Split(os.capture(cmd), "\n")
+end
+
+
+local all_devs = exec('--list')
+for _, v in ipairs(all_devs) do
+    if strcontains(v, device_id_string_part) then
+        v:gsub('id=(%d+)', function(id) 
+                    print('Found device with id', id)
+                    local props_arr = exec('--list-props', id)
+                    for _, prop in ipairs(props_arr) do
+                        prop:gsub('Evdev Debounce Delay%s+%((%d+)', function (prop_id) 
+                            print("Debounce prop id = ", prop_id)
+                            exec('--set-prop', '--type=int', '--format=32', id, prop_id, arg[1] or '20')
+                        end)
+                    end
+                end)
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
