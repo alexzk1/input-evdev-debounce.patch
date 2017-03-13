@@ -68,6 +68,7 @@ Warning! On newest systems (like arch-2017) it uses libinput by default. It must
 "40-libinput.conf" from
 
 /usr/share/X11/xorg.conf.d/
+
 /etc/X11/xorg.conf.d/
 
 or at least, make it listed NOT 2nd in load order.
