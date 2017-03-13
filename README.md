@@ -62,3 +62,11 @@ this line, which will always pick the right incantation:
 Note that you will have to change "USB Receiver" to some value that grep will uniquely find for your mouse and replace the "20" at the end with your desired delay value.
 
 The fix will be in place immediately upon running ```xinput --set-prop...``` and on subsequent startups.
+
+Warning! On newest systems (like arch-2017) it uses libinput by default. It must be disabled. To do so delete/move out file
+"40-libinput.conf" from
+
+/usr/share/X11/xorg.conf.d/
+/etc/X11/xorg.conf.d/
+
+or at least, make it listed NOT 2nd in load order.
