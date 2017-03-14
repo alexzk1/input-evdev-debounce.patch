@@ -95,6 +95,8 @@ end
 ------------------------------------------------------------------------------------------------------------------
 
 --applying patch to devices set above (on top)
+--if script launched with parameter it will be used as minimal delay, for example
+--fixmouse 27
 
 local all_devs = exec('--list')
 for _, v in ipairs(all_devs) do
