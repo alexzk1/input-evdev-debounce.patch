@@ -5,6 +5,7 @@ require 'io'
 local utf8s = string
 local device_id_string_part = {'FM8PU83-Ver0E-'} --maybe couple different devices (comma separated, quatted like {'dev1', 'dev2',})
 
+--some helpers functions below, possibly not used (just copy-pasted snippets)
 --http://lua-users.org/wiki/SplitJoin
 --next characters must be prependent by % to do flat split:      ( ) . % + - * ? [ ^ $
 function Split(str, pat, limit)
@@ -85,6 +86,7 @@ function os.capture(cmd)
   return s
 end
 
+--xinput launcher which gives results as array of printed lines to stdout
 function exec(...)
     local cmd = table.concat({'xinput', table.concat({...},' ')}, ' ')
     --print('Command:', cmd)
