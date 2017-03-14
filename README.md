@@ -1,3 +1,7 @@
+#Searching keywords:
+
+mouse, linux, double-click, minimal double click interval, debounce, too fast double click, doubleclick itself, fix.
+
 # input-evdev-debounce.patch
 Matt Whitlock's debounce patch for input-evdev, updated to work on input-evdev-2.92
 
