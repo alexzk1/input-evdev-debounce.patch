@@ -1,6 +1,6 @@
 #Searching keywords:
 
-mouse, linux, double-click, minimal double click interval, debounce, too fast double click, doubleclick itself, fix, left button wears down, dirty buttons, sometimes when I single click on something it will go through as a double click because of wear and tear, archlinux, arch-linux, ubuntu.
+mouse, linux, double-click, minimal double click interval delay, debounce, too fast double click, doubleclick itself, fix, left button wears down, dirty buttons, sometimes when I single click on something it will go through as a double click because of wear and tear, archlinux, arch-linux, ubuntu.
 
 # input-evdev-debounce.patch
 Matt Whitlock's debounce patch for input-evdev, updated to work on input-evdev-2.92
