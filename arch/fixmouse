@@ -3,7 +3,7 @@ require 'os'
 require 'io'
 
 local utf8s = string
-local device_id_string_part = {'FM8PU83-Ver0E-'} --maybe couple different devices
+local device_id_string_part = {'FM8PU83-Ver0E-'} --maybe couple different devices (comma separated, quatted like {'dev1', 'dev2',}
 
 --http://lua-users.org/wiki/SplitJoin
 --next characters must be prependent by % to do flat split:      ( ) . % + - * ? [ ^ $
